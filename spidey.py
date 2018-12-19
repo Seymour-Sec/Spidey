@@ -8,6 +8,22 @@ version = '0.0.1'
 
 discovered_urls = []
 
+def banner():
+	print('''\033[1;31m
+-------------------------------------------------
+|	 _____       _     _            	|
+|	/  ___|     (_)   | |           	|
+|	\ `--. _ __  _  __| | ___ _   _ 	|
+|	 `--. \ '_ \| |/ _` |/ _ \ | | |	|
+|	/\__/ / |_) | | (_| |  __/ |_| |	|
+|	\____/| .__/|_|\__,_|\___|\__, |	|
+|	      | |                  __/ |	|
+|	      |_|                 |___/ 	|
+-------------------------------------------------
+|\033[0m	Multi Purpose Python Web Crawler  \033[1;31m	|
+\033[1;31m|\033[0m	@Seymour_Sec\033[1;31m                      	|
+-------------------------------------------------\033[0m''')
+
 def isUnique(url):
 	if url == None: return True
 	return url not in discovered_urls
@@ -51,4 +67,5 @@ if __name__ == '__main__':
 	parse.add_argument('-D', '--delay', type=int, default=100, help='crawl delay (ms). default: %(default)s')
 	args = parse.parse_args()
 
+	banner()
 	crawl(args.url, 0)
