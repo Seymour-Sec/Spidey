@@ -8,6 +8,7 @@ from urllib.parse import urldefrag, urlparse, urljoin
 version = '0.0.1'
 done = []
 work = []
+depth = []
 
 def banner():
 	print('''\033[1m\033[95m    ____     _    __
@@ -29,14 +30,18 @@ def formatLink(link, parent_url):
 		if formated_url != parent_url:
 			return formated_url
 
+def getDepth(url):
+	return depth[work.index(url)]
+
 def crawl():
 	for url in work:
 		response = requests.get(url)
 		html = soup(response.text, features='html5lib')
 		for a in html.find_all('a'):
 			found_url = formatLink(a.get('href'), response.url)
-			if found_url and found_url not in done and found_url not in work:
+			if found_url and found_url not in done and found_url not in work and getDepth(url)<args.depth:
 				work.append(found_url)
+				depth.append(getDepth(url)+1)
 				print(found_url)
 		sleep(args.delay/1000)
 
@@ -58,4 +63,5 @@ if __name__ == '__main__':
 	args = parse.parse_args()
 	print(args.url)
 	work.append(args.url)
+	depth.append(0)
 	crawl()
