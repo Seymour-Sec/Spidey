@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import argparse
 import requests
+from time import sleep
 from bs4 import BeautifulSoup as soup
 from urllib.parse import urldefrag, urlparse, urljoin
 
@@ -44,7 +45,8 @@ def crawl(url, depth):
 		if found_url and depth+1<args.depth:
 			if isUnique(found_url):
 				recordURL(found_url)
-			crawl(found_url,depth+1)
+			sleep(args.delay/1000)
+			crawl(found_url, depth+1)
 
 if __name__ == '__main__':
 	parse = argparse.ArgumentParser(
@@ -58,7 +60,7 @@ if __name__ == '__main__':
 	parse.add_argument('-H', '--header', type=str, help='custom headers for requets')
 	parse.add_argument('-a', '--user-agent', type=str, help='a custom user agent for requets')
 	parse.add_argument('-c', '--cookie', type=str, help='custom cookies for requests')
-	parse.add_argument('-D', '--delay', type=int, default=100, help='crawl delay (ms). default: %(default)s')
+	parse.add_argument('-D', '--delay', type=int, default=50, help='crawl delay (ms). default: %(default)s')
 
 	banner()
 	args = parse.parse_args()
