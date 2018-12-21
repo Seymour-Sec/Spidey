@@ -39,7 +39,7 @@ def getDepth(url):
 
 def crawl():
 	for url in work:
-		response = requests.get(url)
+		response = requests.get(url, allow_redirects=False)
 		html = soup(response.text, features='html5lib')
 		for a in html.find_all('a'):
 			found_url = formatLink(a.get('href'), response.url)
