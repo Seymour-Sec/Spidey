@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup as soup
 from urllib.parse import urldefrag, urlparse, urljoin
 
 version = '0.0.1'
+schemes = ['http', 'https', '']
 done = []
 work = []
 depth = []
@@ -28,7 +29,10 @@ def formatLink(link, parent_url):
 	if parsed_link.netloc == parsed_parent_url.netloc or parsed_link.netloc == '':
 		formated_url = urldefrag(urljoin(parent_url, link))[0]
 		if formated_url != parent_url:
-			return formated_url
+			if parsed_link.scheme in schemes:
+				return formated_url
+			else:
+				print(parsed_link.geturl())
 
 def getDepth(url):
 	return depth[work.index(url)]
