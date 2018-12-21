@@ -39,13 +39,14 @@ def getDepth(url):
 
 def crawl():
 	for url in work:
-		response = requests.get(url, allow_redirects=False)
+		response = requests.get(url)
 		html = soup(response.text, features='html5lib')
 		for a in html.find_all('a'):
 			found_url = formatLink(a.get('href'), response.url)
-			if found_url and found_url not in done and found_url not in work and getDepth(url)<args.depth:
+			url_depth = getDepth(url)
+			if found_url and found_url not in done and found_url not in work and url_depth<args.depth:
 				work.append(found_url)
-				depth.append(getDepth(url)+1)
+				depth.append(url_depth+1)
 				print(found_url)
 		sleep(args.delay/1000)
 
